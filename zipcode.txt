@@ -1,0 +1,41 @@
+ZIP Codes starting with 0
+Connecticut, Massachusetts, Maine,
+New Hampshire, New Jersey, Puerto Rico, Rhode Island, Vermont, 
+Virgin Islands, Army Post Office Europe, Fleet Post Office Europe
+
+ZIP Codes starting with 1
+Delaware, New York, Pennsylvania
+
+ZIP Codes starting with 2
+District of Columbia, Maryland, North Carolina, South Carolina, Virginia, West Virginia
+
+ZIP Codes starting with 3
+Alabama, Florida, Georgia, Mississippi, Tennessee, Army Post Office Americas, Fleet Post Office Americas
+
+ZIP Codes starting with 4
+Indiana, Kentucky, Michigan, Ohio
+
+ZIP Codes starting with 5
+Iowa, Minnesota, Montana, North Dakota, South Dakota, Wisconsin
+
+ZIP Codes starting with 6
+Illinois, Kansas, Missouri, Nebraska
+
+ZIP Codes starting with 7
+Arkansas, Louisiana, Oklahoma, Texas
+
+ZIP Codes starting with 8
+Arizona, Colorado, Idaho, New Mexico, Nevada, Utah, Wyoming
+
+ZIP Codes starting with 9
+Alaska, American Samoa, California, Guam, Hawaii, 
+Marshall Islands, Federated States of Micronesia, 
+Northern Mariana Islands, Oregon, Palau, Washington, 
+Army Post Office Pacific, Fleet Post Office Pacific
+
+
+Second Two Digits of ZIP Codes Indicate the City
+The USPS assigns the second two digits in a ZIP Code to denote a city. 
+If a specific geographical region has a central town or city, 
+then the first ZIP Codes are assigned to that city.
+Once that is done, the ZIP codes get assigned in alphabetical order.
