@@ -1,5 +1,8 @@
 from serpapi import GoogleSearch
 import gMapsApi
+import geopy.distance as gd
+
+
 
 
 
@@ -30,17 +33,47 @@ def mapscall(query, longitute, latitude):
         print(position)
     return local_results
 
-def calc_long_lat_of_results(local_results):
-    grocery_store_list = []
+def create_search_result_dict(local_results):
+    '''Creates a dictionary of the important information from the search results 
+    like title of grocery store, unique id (google api), gps_coordinates'''
     grocery_store_dict = {}
     #grocery_store_dict[key] = value
-        # grocery_store_dict[title of grocery store] = [address, unique id, (lat, long)] 
+    # grocery_store_dict[title of grocery store] = [address, unique id, {lat:num, long:num}] 
     for position in local_results:
-        grocery_store_list.append(position["title"])
-    
-    #     grocery_store_list.append(position["title"])
-    # for position in local_results:
+        grocery_store_dict[position["title"]] = [position["address"],position["data_cid"],position["gps_coordinates"]]
 
+    print(grocery_store_dict)
+
+        
+def is_zip_in_a_desert_URBAN(dict,zip_lat, zip_long):
+
+    for key in dict:
+        gps_coordinates = key[2]
+        lat = gps_coordinates["latitude"]
+        long = gps_coordinates["longitude"]
+        coords_1 = (zip_lat,zip_long)
+        coords_2 = (lat,long)
+        '''Calculate distance of lat and long from lat and long of zip code'''
+        distance = gd.geodesic(coords_1, coords_2).miles
+        food_desert = False
+        if distance <= 1:
+            food_desert = True
+    return distance, food_desert
+def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
+
+    for key in dict:
+        gps_coordinates = key[2]
+        lat = gps_coordinates["latitude"]
+        long = gps_coordinates["longitude"]
+        coords_1 = (zip_lat,zip_long)
+        coords_2 = (lat,long)
+        '''Calculate distance of lat and long from lat and long of zip code'''
+        distance = gd.geodesic(coords_1, coords_2).miles 
+        food_desert = False
+        if distance <= 10:
+            food_desert = True
+
+    return distance,food_desert
         
 
 
@@ -49,10 +82,11 @@ def main():
     '''@param for google_geocoding has to be a string'''
     json_lat_long = gMapsApi.google_geocoding("80239") # this is where you enter your zip code or place
     lat_long = gMapsApi.getLongLat(json_lat_long)
+    zip_lat = lat_long[0]
+    zip_long = lat_long[1]
 
-
-    local_results = mapscall("grocery store",lat_long[0],lat_long[1])
-    calc_long_lat_of_results(local_results)
+    local_results = mapscall("grocery store",zip_lat,zip_long)
+    create_search_result_dict(local_results)
     # for key in results:
     #     print(key)
 
