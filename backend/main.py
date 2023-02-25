@@ -56,9 +56,10 @@ def is_zip_in_a_desert_URBAN(dict,zip_lat, zip_long):
         '''Calculate distance of lat and long from lat and long of zip code'''
         distance = gd.geodesic(coords_1, coords_2).miles
         food_desert = False
-        if distance <= 1:
+        if distance <= 1: #consensus of what how what constitutes a food desert in a urban area (1 mile)
             food_desert = True
     return distance, food_desert
+
 def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
 
     for key in dict:
@@ -70,12 +71,10 @@ def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
         '''Calculate distance of lat and long from lat and long of zip code'''
         distance = gd.geodesic(coords_1, coords_2).miles 
         food_desert = False
-        if distance <= 10:
+        if distance <= 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
             food_desert = True
 
     return distance,food_desert
-        
-
 
 
 def main():
