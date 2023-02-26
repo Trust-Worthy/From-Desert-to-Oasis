@@ -52,7 +52,7 @@ def is_zip_in_a_desert_URBAN(dict,zip_lat, zip_long):
         distance = gd.geodesic(coords_1, coords_2).miles 
         distances.append(distance)
         food_desert = False
-        if distance > 1: # consensus of what how what constitutes a food desert in a non urban area (1 miles)
+        if distance <= 0.5: # consensus of what how what constitutes a food desert in a non urban area (0.5 miles)
             food_desert = True
     return distances, food_desert
 
@@ -68,25 +68,8 @@ def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
         distance = gd.geodesic(coords_1, coords_2).miles 
         distances.append(distance)
         food_desert = False
-        if distance > 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
+        if distance <= 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
             food_desert = True
 
     return distances,food_desert
 
-
-def main():
-    '''@param for google_geocoding has to be a string'''
-    zipcode = "20565"
-    json_lat_long = gMapsApi.google_geocoding(zipcode) # this is where you enter your zip code or place
-    lat_long = gMapsApi.getLongLat(json_lat_long)
-    zip_lat = lat_long[0]
-    zip_long = lat_long[1]
-
-    local_results = mapscall("grocery store",zip_lat,zip_long)
-    grocery_store_dict = create_search_result_dict(local_results)
-    answer = is_zip_in_a_desert_NON_URBAN(grocery_store_dict,zip_lat,zip_long)
-    print(answer)
-    
-
-if __name__ == "__main__":
-    main()
