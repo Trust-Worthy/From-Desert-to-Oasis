@@ -23,9 +23,9 @@ def google_geocoding(search):
 
 
 def getLongLat(json_file):
-    for keys in json_file:
-        for key in keys:
-            print(key)
+    # for keys in json_file:
+    #     for key in keys:
+    #         print(key)
     answer = json_file[0]["geometry"]["bounds"]["northeast"]
     latitude = answer["lat"]
     longitude = answer["lng"]

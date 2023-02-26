@@ -2,10 +2,6 @@ from serpapi import GoogleSearch
 import gMapsApi
 import geopy.distance as gd
 
-
-
-
-
 def mapscall(query, longitute, latitude):
 
     params = {
@@ -18,9 +14,6 @@ def mapscall(query, longitute, latitude):
 
     search = GoogleSearch(params)
     results = search.get_dict()
-    print(results)
-    for key in results:
-        print(key)
     local_results = results["local_results"]
     # in local_results there will be different positions.
     # there will be about 20 different positions
@@ -29,8 +22,6 @@ def mapscall(query, longitute, latitude):
     # I also want the unique location id
     # I also need the gps_coordinates field it has the lat and long. 
     # I will do my distance calculation on this
-    for position in local_results:
-        print(position)
     return local_results
 
 def create_search_result_dict(local_results):
@@ -40,41 +31,47 @@ def create_search_result_dict(local_results):
     #grocery_store_dict[key] = value
     # grocery_store_dict[title of grocery store] = [address, unique id, {lat:num, long:num}] 
     for position in local_results:
+        count = 0
+        if position["title"] in grocery_store_dict:
+            grocery_store_dict[position["title"] + str(count)] = [position["address"],position["data_cid"],position["gps_coordinates"]]
+            count += 1 # if there are multiple of the same grocery chain, they should show up
         grocery_store_dict[position["title"]] = [position["address"],position["data_cid"],position["gps_coordinates"]]
 
-    print(grocery_store_dict)
+    return grocery_store_dict
 
         
 def is_zip_in_a_desert_URBAN(dict,zip_lat, zip_long):
-
+    distances = []
     for key in dict:
-        gps_coordinates = key[2]
-        lat = gps_coordinates["latitude"]
-        long = gps_coordinates["longitude"]
-        coords_1 = (zip_lat,zip_long)
-        coords_2 = (lat,long)
-        '''Calculate distance of lat and long from lat and long of zip code'''
-        distance = gd.geodesic(coords_1, coords_2).miles
-        food_desert = False
-        if distance <= 1: #consensus of what how what constitutes a food desert in a urban area (1 mile)
-            food_desert = True
-    return distance, food_desert
-
-def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
-
-    for key in dict:
-        gps_coordinates = key[2]
+        gps_coordinates = dict[key][2]
         lat = gps_coordinates["latitude"]
         long = gps_coordinates["longitude"]
         coords_1 = (zip_lat,zip_long)
         coords_2 = (lat,long)
         '''Calculate distance of lat and long from lat and long of zip code'''
         distance = gd.geodesic(coords_1, coords_2).miles 
+        distances.append(distance)
         food_desert = False
-        if distance <= 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
+        if distance > 1: # consensus of what how what constitutes a food desert in a non urban area (1 miles)
+            food_desert = True
+    return distances, food_desert
+
+def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
+    distances = []
+    for key in dict:
+        gps_coordinates = dict[key][2]
+        lat = gps_coordinates["latitude"]
+        long = gps_coordinates["longitude"]
+        coords_1 = (zip_lat,zip_long)
+        coords_2 = (lat,long)
+        '''Calculate distance of lat and long from lat and long of zip code'''
+        distance = gd.geodesic(coords_1, coords_2).miles 
+        distances.append(distance)
+        food_desert = False
+        if distance > 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
             food_desert = True
 
-    return distance,food_desert
+    return distances,food_desert
 
 
 def main():
@@ -85,11 +82,10 @@ def main():
     zip_long = lat_long[1]
 
     local_results = mapscall("grocery store",zip_lat,zip_long)
-    create_search_result_dict(local_results)
-    # for key in results:
-    #     print(key)
-
-
+    grocery_store_dict = create_search_result_dict(local_results)
+    answer = is_zip_in_a_desert_NON_URBAN(grocery_store_dict,zip_lat,zip_long)
+    print(answer)
+    
 
 if __name__ == "__main__":
     main()
