@@ -2,11 +2,11 @@ import requests
 import googlemaps
 from datetime import datetime
 
-def google_geocoding(search):
+def google_geocoding(zipcode):
     gmaps = googlemaps.Client(key='AIzaSyDZG6AM2xR2VBSemt9FBJqYHzM8DVKpM-U')
 
     # Geocoding an address
-    geocode_result = gmaps.geocode(search)
+    geocode_result = gmaps.geocode(zipcode)
     return geocode_result
 
 
@@ -30,10 +30,6 @@ def getLongLat(json_file):
     latitude = answer["lat"]
     longitude = answer["lng"]
     return [latitude,longitude] #chaged this to a list instead of a tuple because it was acting up
-
-def ziptolonglat(zipcode):
-    '''Converts a zipcode to Longitude and Latitude'''
-
 
 def main():
     city = "Denver"

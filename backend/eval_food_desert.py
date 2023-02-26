@@ -76,7 +76,8 @@ def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
 
 def main():
     '''@param for google_geocoding has to be a string'''
-    json_lat_long = gMapsApi.google_geocoding("80239") # this is where you enter your zip code or place
+    zipcode = "20565"
+    json_lat_long = gMapsApi.google_geocoding(zipcode) # this is where you enter your zip code or place
     lat_long = gMapsApi.getLongLat(json_lat_long)
     zip_lat = lat_long[0]
     zip_long = lat_long[1]
