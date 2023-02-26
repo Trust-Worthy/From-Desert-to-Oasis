@@ -15,10 +15,12 @@ def index():
     return render_template('index.html')
 @app.route("/food_desert")
 def food_desert():
-    return render_template("index.html")
-# @app.route("/eval_food_desert")
-# def is_food_desert():
-    
+    """
+    Should display a map of the zip code and all of the grocery stores
+    that were compared against that zip code
+    """
+    return render_template("map.html")
+
 
 
 
