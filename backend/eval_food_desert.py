@@ -1,5 +1,4 @@
 from serpapi import GoogleSearch
-import gMapsApi
 import geopy.distance as gd
 
 def mapscall(query, longitute, latitude):
