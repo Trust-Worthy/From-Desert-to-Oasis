@@ -1,6 +1,5 @@
 import requests
 import googlemaps
-from datetime import datetime
 
 def google_geocoding(zipcode):
     gmaps = googlemaps.Client(key='AIzaSyDZG6AM2xR2VBSemt9FBJqYHzM8DVKpM-U')
@@ -30,24 +29,3 @@ def getLongLat(json_file):
     latitude = answer["lat"]
     longitude = answer["lng"]
     return [latitude,longitude] #chaged this to a list instead of a tuple because it was acting up
-
-def main():
-    city = "Denver"
-    state = "Colorado"
-
-    result = google_geocoding("80239")
-    print(result[0])
-    lat_long = getLongLat(result)
-    print(lat_long)
-    # json_response = ninja_api(city,state)
-    # print(json_response)
-
-    # long_lat = getLongLat(json_response,state)
-    # print(long_lat)
-
-
-   
-
-
-if __name__ == "__main__":
-    main()

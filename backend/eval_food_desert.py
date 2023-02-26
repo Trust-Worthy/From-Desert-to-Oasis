@@ -39,37 +39,30 @@ def create_search_result_dict(local_results):
 
     return grocery_store_dict
 
+def is_zip_in_a_desert(dict,zip_lat, zip_long):
+    distances = []
+    sum = 0
+    count = 0
+    food_desert = False
+    for key in dict:
+        gps_coordinates = dict[key][2]
+        lat = gps_coordinates["latitude"]
+        long = gps_coordinates["longitude"]
+        coords_1 = (zip_lat,zip_long)
+        coords_2 = (lat,long)
+        '''Calculate distance of lat and long from lat and long of zip code'''
+        distance = gd.geodesic(coords_1, coords_2).miles
+        sum += distance
+        count += 1
+        distances.append(distance)
         
-def is_zip_in_a_desert_URBAN(dict,zip_lat, zip_long):
-    distances = []
-    for key in dict:
-        gps_coordinates = dict[key][2]
-        lat = gps_coordinates["latitude"]
-        long = gps_coordinates["longitude"]
-        coords_1 = (zip_lat,zip_long)
-        coords_2 = (lat,long)
-        '''Calculate distance of lat and long from lat and long of zip code'''
-        distance = gd.geodesic(coords_1, coords_2).miles 
-        distances.append(distance)
-        food_desert = False
-        if distance <= 0.5: # consensus of what how what constitutes a food desert in a non urban area (0.5 miles)
+        
+    average_distance = sum / count
+    if average_distance < 1.5:
+         food_desert == True
+    elif average_distance >= 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
             food_desert = True
-    return distances, food_desert
-
-def is_zip_in_a_desert_NON_URBAN(dict,zip_lat, zip_long):
-    distances = []
-    for key in dict:
-        gps_coordinates = dict[key][2]
-        lat = gps_coordinates["latitude"]
-        long = gps_coordinates["longitude"]
-        coords_1 = (zip_lat,zip_long)
-        coords_2 = (lat,long)
-        '''Calculate distance of lat and long from lat and long of zip code'''
-        distance = gd.geodesic(coords_1, coords_2).miles 
-        distances.append(distance)
+    else:
         food_desert = False
-        if distance <= 10: # consensus of what how what constitutes a food desert in a non urban area (10 miles)
-            food_desert = True
-
-    return distances,food_desert
+    return distances,food_desert,average_distance
 
