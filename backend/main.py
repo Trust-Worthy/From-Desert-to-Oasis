@@ -34,7 +34,7 @@ def main():
         desert += "not a food desert"
 
     print(f"The zipcode: {zipcode} is {desert} \n{zipcode} is an average distance of {final} miles away from a grocery store \n{zipcode} is also an average distance of {final_lq} miles away from a liquor store")
-    
+    # print(grocery_store_dict)
 
 if __name__ == "__main__":
     main()
